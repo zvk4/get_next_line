@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -74,11 +75,9 @@ char *str_join(const char *s1, const char *s2)
         str[i + j] = s2[j];
         j++;
     }
-    str[i + j] = '\0';
-    return (str);
 }
 
-char *sub_str(const char *s, unsigned int start, size_t len)
+char *sub_str(char const *s, unsigned int start, size_t len)
 {
     size_t i;
     size_t s_len;
@@ -94,6 +93,7 @@ char *sub_str(const char *s, unsigned int start, size_t len)
             return (NULL);
         str[0] = '\0';
         return(str);
+
     }
     if (len > s_len - start)
         len = s_len - start;
