@@ -5,12 +5,15 @@
 int main()
 {
     int fd = open("deneme", O_RDONLY);
+    if (fd == -1)
+    {
+        printf("hata");
+        return (1);
+    }
     char *line;
 
-    while ((line = get_next_line(fd)))
-    {
-        printf("%s", line);
+    (line = get_next_line(fd));
+        printf("%s ", line);
         free(line);
-    }
     close(fd);
 }

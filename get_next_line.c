@@ -26,27 +26,52 @@ static char *extra_line(char **rest, int nl_i)
     return (line);
 }
 
+static char *append_rest(char *rest, char *buf)
+{
+    char *tmp;
+
+    tmp = rest;
+    rest = str_join(rest, buf);
+    free(tmp);
+    return (rest);
+}
+
+static char *read_to_rest(int fd, char *rest)
+{
+    char *buf;
+    int bytes;
+
+    buf = malloc(BUF_SIZE + 1);
+    if (!buf)
+        return (NULL);
+    bytes = 1;
+    while (newline_i(rest) < 0 && bytes > 0)
+    {
+        bytes = read(fd, buf, BUF_SIZE);
+        if (bytes < 0)
+        {
+            free(buf);
+            return (NULL);
+        }
+        buf[bytes] = '\0';
+        rest = append_rest(rest, buf);
+    }
+    free(buf);
+    return (rest);
+}
+
 char *get_next_line(int fd)
 {
     static char *rest;
-    char *buf;
     char *line;
-    int byte_read;
     int nl_i;
 
     if (BUF_SIZE <= 0 || fd < 0)
         return (NULL);
-    buf = malloc(BUF_SIZE + 1);
-    if (!buf)
+    rest = read_to_rest(fd, rest);
+    if (!rest)
         return (NULL);
-    byte_read = 1;
-    while ((nl_i = newline_i(rest)) < 0
-        && (byte_read = read(fd, buf, BUF_SIZE)) > 0)
-    {
-        buf[byte_read] = '\0';
-        rest = str_join(rest, buf);
-    }
-    free(buf);
+    nl_i = newline_i(rest);
     if (nl_i >= 0)
         return (extra_line(&rest, nl_i));
     if (rest && *rest)
@@ -56,5 +81,7 @@ char *get_next_line(int fd)
         rest = NULL;
         return (line);
     }
+    free(rest);
+    rest = NULL;
     return (NULL);
 }	
