@@ -6,7 +6,7 @@
 /*   By: zkarali <zkarali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 15:00:27 by zkarali           #+#    #+#             */
-/*   Updated: 2025/08/13 15:36:02 by zkarali          ###   ########.fr       */
+/*   Updated: 2025/08/13 15:59:09 by zkarali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	str_len(const char *s)
 
 char	*str_dup(const char *s)
 {
-	int		i;
+	size_t	i;
 	char	*copy;
 
 	if (!s)
