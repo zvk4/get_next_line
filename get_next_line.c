@@ -6,7 +6,7 @@
 /*   By: zkarali <zkarali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 14:59:27 by zkarali           #+#    #+#             */
-/*   Updated: 2025/08/13 15:33:09 by zkarali          ###   ########.fr       */
+/*   Updated: 2025/08/15 18:30:35 by zkarali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,17 @@ static char	*extra_line(char **rest, int nl_i)
 
 	line = sub_str(*rest, 0, nl_i + 1);
 	len = str_len(*rest) - (nl_i + 1);
-	oldrest = *rest;
-	*rest = sub_str(*rest, nl_i + 1, len);
-	free(oldrest);
+	if (len == 0)
+	{
+		free(*rest);
+		*rest = NULL;
+	}
+	else
+	{
+		oldrest = *rest;
+		*rest = sub_str(*rest, nl_i + 1, len);
+		free(oldrest);
+	}
 	return (line);
 }
 
@@ -81,7 +89,5 @@ char	*get_next_line(int fd)
 		rest = NULL;
 		return (line);
 	}
-	free(rest);
-	rest = NULL;
 	return (NULL);
-}	
+}
