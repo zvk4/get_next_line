@@ -6,7 +6,7 @@
 /*   By: zkarali <zkarali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 14:59:27 by zkarali           #+#    #+#             */
-/*   Updated: 2025/08/15 18:30:35 by zkarali          ###   ########.fr       */
+/*   Updated: 2025/08/16 11:06:40 by zkarali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*extra_line(char **rest, int nl_i)
 	int		len;
 
 	line = sub_str(*rest, 0, nl_i + 1);
+	if (!line)
+		return (NULL);
 	len = str_len(*rest) - (nl_i + 1);
 	if (len == 0)
 	{
@@ -40,6 +42,8 @@ static char	*append_rest(char *rest, char *buf)
 
 	tmp = rest;
 	rest = str_join(rest, buf);
+	if (!rest)
+		return (free(tmp), NULL);
 	free(tmp);
 	return (rest);
 }
@@ -61,6 +65,8 @@ static char	*read_to_rest(int fd, char *rest)
 			free(buf);
 			return (NULL);
 		}
+		if (bytes == 0)
+			break ;
 		buf[bytes] = '\0';
 		rest = append_rest(rest, buf);
 	}
